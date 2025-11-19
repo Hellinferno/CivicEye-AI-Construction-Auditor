@@ -1,0 +1,12 @@
+# Ignore Environment Variables (Secrets)
+.env
+
+# Ignore Python compiled files
+pycache/
+*.pyc
+__pycache__/
+
+# Ignore Virtual Environment folders 
+venv/
+env/
+.gemini/
