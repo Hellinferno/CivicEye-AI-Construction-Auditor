@@ -96,3 +96,10 @@ python main.py \
 - Better fuzzy matching for vendor names and narrations.
 - Web dashboard or n8n workflow integration.
 - More robust handling of OCR'd PDFs with noisy text.
+
+## Project Structure
+
+- `vouchvault/` – core library (manager agent, analyst agent, tools, config)
+- `main.py` – CLI entrypoint
+- `sample_data/` – example invoice and bank statement
+- `requirements.txt` – Python dependencies
