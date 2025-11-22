@@ -75,6 +75,8 @@ python main.py \
   --bank_csv sample_data/bank_statement_sample_1.csv
 ```
 
+📊 **See [Example Run Walkthrough](docs/example_run.md)** for detailed output and results.
+
 💡 Key Features Implemented (Rubric)
 
 ✅ Multi-Agent System: Manager & Analyst separation of concerns.
