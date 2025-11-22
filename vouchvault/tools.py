@@ -1,4 +1,3 @@
-import math
 from difflib import SequenceMatcher
 
 def calculate_gst(amount: float, rate: float = 0.18) -> float:

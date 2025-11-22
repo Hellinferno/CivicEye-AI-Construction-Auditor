@@ -65,9 +65,13 @@ def run_vouch_vault(invoice_data: str, bank_data: str) -> None:
                 # We try to extract numbers to give a specific hint
                 # Re-import moved to top of file
                 try:
-                    # Find all numbers like 100.00 in the text
-                    inv_vals = [float(x) for x in re.findall(r"(\d+\.\d{2})", invoice_data)]
-                    bank_vals = [float(x) for x in re.findall(r"(\d+\.\d{2})", bank_data)]
+                    # Find all numbers (handles commas and optional decimals)
+                    # Matches: 11,800 or 1,000.00 or 1800 or 1800.00
+                    inv_matches = re.findall(r'[\d,]+\.?\d*', invoice_data)
+                    bank_matches = re.findall(r'[\d,]+\.?\d*', bank_data)
+                    
+                    inv_vals = [float(x.replace(',', '')) for x in inv_matches if x.replace(',', '').replace('.', '').isdigit()]
+                    bank_vals = [float(x.replace(',', '')) for x in bank_matches if x.replace(',', '').replace('.', '').isdigit()]
                     
                     hint_msg = "Check for discounts or partial payments."
                     
