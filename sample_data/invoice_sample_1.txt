@@ -1,0 +1,10 @@
+Invoice No: INV-001
+Date: 2024-04-10
+Vendor: ABC Services Pvt Ltd
+
+
+Description: Consulting services for March
+Amount (before tax): 10,000 INR
+GST (18%): 1,800 INR
+Total Amount: 11,800 INR
+Payment terms: Due in 15 days
