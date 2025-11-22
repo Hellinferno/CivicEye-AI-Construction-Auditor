@@ -3,7 +3,7 @@ VouchVault: Autonomous Enterprise Audit Agent
 
 Google AI Agents Intensive Capstone (Enterprise Track)
 
-Author: [Your Name]
+Author: Ravi (CA Intermediate & AI Engineering Student)
 Role: CA Intermediate & AI Engineer
 
 📖 Project Overview
@@ -13,6 +13,12 @@ VouchVault is a multi-agent AI system designed to automate the "Vouching" proces
 Occurrence: Does the transaction actually exist in the bank ledger?
 
 Accuracy: Is the tax calculation (GST/VAT) mathematically compliant?
+
+## Use Cases
+
+- CA firms automating vouching of invoices against bank statements.
+- GST compliance checks for SMEs (matching invoice amounts and tax).
+- Internal audit teams validating payment trails for specific vendors.
 
 🤖 Architecture
 
@@ -59,6 +65,15 @@ Run the Agent:
 
 python main.py
 
+## Example Run
+
+Using the sample invoice and bank statement provided:
+
+```bash
+python main.py \
+  --invoice_path sample_data/invoice_sample_1.txt \
+  --bank_csv sample_data/bank_statement_sample_1.csv
+```
 
 💡 Key Features Implemented (Rubric)
 
@@ -67,3 +82,17 @@ python main.py
 ✅ Tool Use: calculate_tax_compliance ensures 100% arithmetic accuracy (solving LLM math hallucinations).
 
 ✅ Looping Agents: Implemented retry logic (while attempts < max) to handle data discrepancies.
+
+## Limitations
+
+- Works best with standard invoice formats (Indian-style GST invoices).
+- Dependent on Gemini 1.5 Flash API availability and quality.
+- Currently CLI-only, no web UI.
+- Limited evaluation on real-world messy PDFs.
+
+## Future Work
+
+- Support multiple banks and statement formats.
+- Better fuzzy matching for vendor names and narrations.
+- Web dashboard or n8n workflow integration.
+- More robust handling of OCR'd PDFs with noisy text.

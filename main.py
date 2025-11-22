@@ -2,6 +2,7 @@ import os
 import time
 import sys
 import io
+import argparse
 import google.generativeai as genai
 from dotenv import load_dotenv
 from tools import calculate_tax_compliance, fuzzy_match_vendor
@@ -50,13 +51,13 @@ analyst_model = genai.GenerativeModel(
     tools=[calculate_tax_compliance, fuzzy_match_vendor]
 )
 
-def run_vouch_vault():
+def run_vouch_vault(invoice_data, bank_data):
     print("\n🤖 --- VouchVault: Enterprise Audit Agent ---")
     print("----------------------------------------------")
 
     # Step 1: The Manager "Sees" the Data
-    print(f"📄 [Manager] Incoming Invoice Detected:\n{INVOICE_DATA.strip()}")
-    print(f"🏦 [Manager] Bank Statement Fetched ({len(BANK_STATEMENT_CSV.splitlines())-1} transactions found).")
+    print(f"📄 [Manager] Incoming Invoice Detected:\n{invoice_data.strip()}")
+    print(f"🏦 [Manager] Bank Statement Fetched ({len(bank_data.splitlines())-1} transactions found).")
     
     # Step 2: The Audit Loop
     # Rubric Point: "Loop agents" & "Reliability"
@@ -80,8 +81,8 @@ def run_vouch_vault():
         2. Check if the 'Total' amount from the Invoice appears in the Bank Statement using the 'fuzzy_match_vendor' tool or by analyzing the text.
         
         CURRENT DATA:
-        - Invoice: {INVOICE_DATA}
-        - Bank Statement: {BANK_STATEMENT_CSV}
+        - Invoice: {invoice_data}
+        - Bank Statement: {bank_data}
         
         OUTPUT RULES:
         - If the 'Total' amount from the Invoice does NOT match the Bank Statement amount exactly, you MUST start with "AUDIT STATUS: FAIL".
@@ -109,4 +110,29 @@ def run_vouch_vault():
                 print("\n❌ [Manager] Audit Failed after multiple attempts. Flagging for Human Review.")
 
 if __name__ == "__main__":
-    run_vouch_vault()
+    parser = argparse.ArgumentParser(description="VouchVault: Autonomous Enterprise Audit Agent")
+    parser.add_argument("--invoice_path", help="Path to the invoice text file")
+    parser.add_argument("--bank_csv", help="Path to the bank statement CSV file")
+    args = parser.parse_args()
+
+    # Default to simulated data
+    invoice_content = INVOICE_DATA
+    bank_content = BANK_STATEMENT_CSV
+
+    if args.invoice_path:
+        try:
+            with open(args.invoice_path, 'r', encoding='utf-8') as f:
+                invoice_content = f.read()
+        except Exception as e:
+            print(f"Error reading invoice file: {e}")
+            sys.exit(1)
+
+    if args.bank_csv:
+        try:
+            with open(args.bank_csv, 'r', encoding='utf-8') as f:
+                bank_content = f.read()
+        except Exception as e:
+            print(f"Error reading bank CSV file: {e}")
+            sys.exit(1)
+
+    run_vouch_vault(invoice_content, bank_content)

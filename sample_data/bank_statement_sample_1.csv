@@ -1,0 +1,4 @@
+date,description,amount,type,balance
+2024-04-05,Opening Balance,0.00,INFO,0.00
+2024-04-12,NEFT ABC SERVICES PVT LTD,11800.00,DEBIT,50000.00
+2024-04-15,Salary Credit,60000.00,CREDIT,110000.00
