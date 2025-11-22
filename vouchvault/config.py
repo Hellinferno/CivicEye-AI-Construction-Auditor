@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("GOOGLE_API_KEY")
-MODEL_NAME = 'gemini-2.0-flash'
+MODEL_NAME = 'gemini-1.5-flash'
 
 # --- SIMULATED DATA (Perfect for the Demo Video) ---
 # We simulate the inputs so the judges can run it without needing external PDFs

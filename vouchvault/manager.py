@@ -47,14 +47,19 @@ def run_vouch_vault(invoice_data, bank_data):
         print(f"📝 [Analyst Report]:\n{response.text}")
         
         # Logic to break the loop or retry
-        if "AUDIT STATUS: PASS" in response.text:
+        # Convert response to uppercase to catch "Audit Status: Pass" or "AUDIT STATUS: PASS"
+        if "AUDIT STATUS: PASS" in response.text.upper():
             audit_passed = True
             print("\n✅ [Manager] Audit Verified. Invoice Approved.")
         else:
             print("\n⚠️ [Manager] Discrepancy Detected.")
             if attempts < max_retries:
-                print("🔄 [Manager] Instruction: 'Analyst, please re-check if the $30 difference could be a withholding tax or discount.'")
+                print("🔄 [Manager] Instruction: 'Analyst, please re-check for discounts or tax mismatches.'")
                 # We inject a new prompt into the chat history to guide the agent
-                analyst.inject_message("The amounts differ ($1180 vs $1150). Check if the difference ($30) could be a discount? Re-evaluate.")
+                analyst.inject_message(
+                    "There is still a discrepancy between the Invoice Total and Bank Transaction. "
+                    "Check if the difference could be a 'Discount', 'TDS', or 'Partial Payment'. "
+                    "Re-calculate and try again."
+                )
             else:
                 print("\n❌ [Manager] Audit Failed after multiple attempts. Flagging for Human Review.")
