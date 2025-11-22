@@ -54,12 +54,29 @@ def run_vouch_vault(invoice_data, bank_data):
         else:
             print("\n⚠️ [Manager] Discrepancy Detected.")
             if attempts < max_retries:
-                print("🔄 [Manager] Instruction: 'Analyst, please re-check for discounts or tax mismatches.'")
-                # We inject a new prompt into the chat history to guide the agent
+                # --- INTELLIGENT MANAGER LOGIC ---
+                # Try to parse numbers to help the agent
+                try:
+                    import re
+                    # Find all dollar amounts in invoice and bank data
+                    inv_amounts = [float(x) for x in re.findall(r"(\d+\.?\d*)", invoice_data)]
+                    bank_amounts = [float(x) for x in re.findall(r"(\d+\.?\d*)", bank_data)]
+                    
+                    # Calculate difference (use the largest amounts as they're likely the totals)
+                    diff_msg = "Check for discounts or partial payments."
+                    if inv_amounts and bank_amounts:
+                        inv_total = max(inv_amounts)
+                        bank_total = max(bank_amounts)
+                        diff = abs(inv_total - bank_total)
+                        if diff > 0.01:  # Only mention if difference is meaningful
+                            diff_msg = f"The specific difference is {diff:.2f}. Check if a discount or tax matches this amount."
+                except:
+                    diff_msg = "Check for discounts or partial payments."
+
+                print(f"🔄 [Manager] Instruction: '{diff_msg}'")
                 analyst.inject_message(
-                    "There is still a discrepancy between the Invoice Total and Bank Transaction. "
-                    "Check if the difference could be a 'Discount', 'TDS', or 'Partial Payment'. "
-                    "Re-calculate and try again."
+                    f"There is still a discrepancy between the Invoice Total and Bank Transaction. "
+                    f"{diff_msg} Re-calculate and try again."
                 )
             else:
                 print("\n❌ [Manager] Audit Failed after multiple attempts. Flagging for Human Review.")

@@ -1,4 +1,5 @@
 import math
+from difflib import SequenceMatcher
 
 def calculate_gst(amount: float, rate: float = 0.18) -> float:
     """
@@ -32,19 +33,26 @@ def calculate_tax_compliance(subtotal: float, tax_amount: float, tax_rate: float
 
 def fuzzy_match_vendor(invoice_vendor: str, bank_statement_text: str) -> dict:
     """
-    Checks if the vendor name exists in the bank statement text using case-insensitive matching.
+    Checks if the vendor name exists in the bank statement using similarity matching.
     """
-    # Simple normalization
     clean_vendor = invoice_vendor.lower().strip()
     clean_statement = bank_statement_text.lower()
     
+    # 1. Exact Substring Match (Fastest)
     if clean_vendor in clean_statement:
-        return {"match_found": True, "vendor": invoice_vendor}
+        return {"match_found": True, "vendor": invoice_vendor, "method": "exact"}
     
-    # Fallback: Check for partial matches (first word only)
-    first_word = clean_vendor.split(' ')[0]
-    if len(first_word) > 3 and first_word in clean_statement:
-         return {"match_found": True, "vendor": invoice_vendor, "note": "Partial match found"}
+    # 2. Similarity Match (Smarter)
+    # We check if the vendor name resembles any part of the statement description
+    similarity = SequenceMatcher(None, clean_vendor, clean_statement).ratio()
+    
+    if similarity > 0.6:  # Threshold: 60% match
+        return {
+            "match_found": True, 
+            "vendor": invoice_vendor, 
+            "confidence": round(similarity, 2),
+            "note": "Fuzzy match detected"
+        }
          
     return {"match_found": False, "vendor": invoice_vendor}
 
