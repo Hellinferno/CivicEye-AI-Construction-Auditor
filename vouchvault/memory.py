@@ -1,7 +1,7 @@
 """Simple audit memory for tracking processed invoices (Day 3 capability)."""
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 
 @dataclass
 class AuditRecord:
@@ -17,17 +17,17 @@ class AuditMemory:
     """Short-term memory for audit session."""
     
     def __init__(self):
-        self._records: list[AuditRecord] = []
+        self._records: List[AuditRecord] = []
     
     def add_record(self, record: AuditRecord) -> None:
         """Add a new audit record to memory."""
         self._records.append(record)
     
-    def get_by_vendor(self, vendor: str) -> list[AuditRecord]:
+    def get_by_vendor(self, vendor: str) -> List[AuditRecord]:
         """Retrieve past audits for a vendor (useful for pattern detection)."""
         return [r for r in self._records if vendor.lower() in r.vendor.lower()]
     
-    def get_recent(self, n: int = 5) -> list[AuditRecord]:
+    def get_recent(self, n: int = 5) -> List[AuditRecord]:
         """Get the most recent N audits."""
         return self._records[-n:]
     

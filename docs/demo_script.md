@@ -15,19 +15,6 @@ python main.py --invoice_path sample_data/invoice_sample_1.txt \
 ```
 "Here's a perfect match - 11,800 INR invoice, vendor ABC Services, GST compliant at 18%. Watch the Analyst Agent verify each check using deterministic Python tools."
 
-**Show output**: ✅ Tax compliance, ✅ Vendor match, ✅ Amount verified
-
-### Demo 2: Retry Logic
-```bash
-python main.py  # Uses simulated data with discrepancy
-```
-"Now with an intentional 30 INR mismatch - the Manager Agent triggers retry logic with intelligent hints. This demonstrates error recovery and looping agents."
-
-**Show output**: Retry attempts with specific difference calculation
-
-## Architecture (30 seconds)
-"Two specialized agents: 
-- **Manager**: Orchestrates the audit workflow
 - **Analyst**: Uses Gemini 1.5 Flash with function calling
 
 **Key innovation**: Deterministic Python tools for tax calculations—no LLM math hallucinations."

@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("GOOGLE_API_KEY")
-MODEL_NAME = 'gemini-1.5-flash'
+MODEL_NAME = 'gemini-flash-latest'
 
 # --- SIMULATED DATA (Perfect for the Demo Video) ---
 # We simulate the inputs so the judges can run it without needing external PDFs
 INVOICE_DATA = """
-INVOICE #9921
+INVOICE #101
 Vendor: TechSolutions Inc
 Date: 2025-11-19
 Amount (before tax): 1,000.00 INR

@@ -2,3 +2,9 @@ google-generativeai
 python-dotenv
 tabulate
 pytest
+qdrant-client
+sentence-transformers
+pillow
+pypdf
+reportlab
+streamlit

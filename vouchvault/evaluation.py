@@ -1,7 +1,7 @@
 """Evaluation metrics for audit accuracy (Day 4 capability)."""
 import time
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import Optional, List
 
 @dataclass
 class AuditMetrics:
@@ -42,7 +42,7 @@ class AuditEvaluator:
     """Tracks and aggregates audit metrics across sessions."""
     
     def __init__(self):
-        self.history: list[AuditMetrics] = []
+        self.history: List[AuditMetrics] = []
     
     def start_audit(self, invoice_id: str) -> AuditMetrics:
         """Start tracking a new audit."""

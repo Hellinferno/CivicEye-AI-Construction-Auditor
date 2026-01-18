@@ -21,16 +21,22 @@ def run_cli() -> None:
         try:
             with open(args.invoice_path, 'r', encoding='utf-8') as f:
                 invoice_content = f.read()
-        except Exception as e:
-            print(f"Error reading invoice file: {e}")
+        except FileNotFoundError:
+            print(f"Error: File not found: {args.invoice_path}")
+            sys.exit(1)
+        except PermissionError:
+            print(f"Error: Permission denied: {args.invoice_path}")
             sys.exit(1)
 
     if args.bank_csv:
         try:
             with open(args.bank_csv, 'r', encoding='utf-8') as f:
                 bank_content = f.read()
-        except Exception as e:
-            print(f"Error reading bank CSV file: {e}")
+        except FileNotFoundError:
+            print(f"Error: File not found: {args.bank_csv}")
+            sys.exit(1)
+        except PermissionError:
+            print(f"Error: Permission denied: {args.bank_csv}")
             sys.exit(1)
 
     run_vouch_vault(invoice_content, bank_content)
